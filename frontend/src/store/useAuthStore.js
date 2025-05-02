@@ -3,7 +3,10 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.NODE==="development" ? "http://localhost:5001/api" : "/"
+const SOCKET_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5001"
+    : "https://twiink-api.onrender.com"; 
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -20,7 +23,7 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
-      console.log("error in checkAuth", error);
+      console.log("Error in checkAuth:", error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -47,7 +50,7 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
-      get().connectSocket(); // ✅ fixed
+      get().connectSocket();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Login failed");
     } finally {
@@ -60,7 +63,7 @@ export const useAuthStore = create((set, get) => ({
       await axiosInstance.post("/auth/logout");
       set({ authUser: null });
       toast.success("Logged out successfully");
-      get().disconnectSocket(); // ✅ fixed
+      get().disconnectSocket();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Logout failed");
     }
@@ -73,7 +76,6 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: res.data });
       toast.success("Profile updated successfully");
     } catch (error) {
-      console.log("error in update profile:", error);
       toast.error(error?.response?.data?.message || "Update failed");
     } finally {
       set({ isUpdatingProfile: false });
@@ -83,7 +85,10 @@ export const useAuthStore = create((set, get) => ({
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
-      const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
+      const res = await axiosInstance.post(
+        `/messages/send/${selectedUser._id}`,
+        messageData
+      );
       set({ messages: [...messages, res.data] });
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to send message");
@@ -92,25 +97,28 @@ export const useAuthStore = create((set, get) => ({
 
   connectSocket: () => {
     const { authUser } = get();
-    if (!authUser || get().socket?.connected) return;
+    if (!authUser) return;
+    if (get().socket?.connected) return;
 
-    const socket = io(BASE_URL, {
-      query: {
-        userId: authUser._id,
-      },
+    const socket = io(SOCKET_URL, {
+      query: { userId: authUser._id },
     });
 
-    socket.connect();
-    set({ socket });
+    socket.on("connect", () => {});
+    socket.on("connect_error", () => {});
+    socket.on("disconnect", () => {});
 
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
     });
+
+    set({ socket });
   },
 
   disconnectSocket: () => {
-    if (get().socket?.connected) {
-      get().socket.disconnect(); // ✅ fixed
+    const socket = get().socket;
+    if (socket?.connected) {
+      socket.disconnect();
     }
   },
 }));
