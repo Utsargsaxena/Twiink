@@ -3,8 +3,7 @@
 **Klyno** is a full-stack MERN chat application built with modern web technologies, supporting real-time messaging, online user tracking, authentication, and a responsive UI. It leverages **Socket.IO** for live updates, **Zustand** for state management, and **TailwindCSS + DaisyUI** for clean styling.
 
 ## **🚀 Live Demo**
-- Frontend: [https://twiink.onrender.com](https://twiink.onrender.com)
-- Backend API: [https://twiink-api.onrender.com](https://twiink-api.onrender.com)
+https://twiink.onrender.com
 
 ## **🧰 Tech Stack**
 
