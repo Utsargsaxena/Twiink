@@ -36,28 +36,40 @@ export const useChatStore = create((set, get) => ({
 
   sendMessage: async (messageData) => {
     const { selectedUser, messages, users } = get();
-
+    const { authUser } = useAuthStore.getState();
+  
+    const tempMessage = {
+      _id: Date.now().toString(), // temporary ID
+      senderId: authUser._id,
+      receiverId: selectedUser._id,
+      text: messageData.text || "",
+      image: messageData.image || "",
+      createdAt: new Date().toISOString(),
+    };
+  
+    // Optimistically update UI
+    set({ messages: [...messages, tempMessage] });
+  
+    // Move selected user to top
+    const updatedUsers = [
+      selectedUser,
+      ...users.filter((u) => u._id !== selectedUser._id),
+    ];
+    set({ users: updatedUsers });
+  
     try {
       const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
-
-      if (res?.data) {
-        set({ messages: [...messages, res.data] });
-
-        // Move selected user to top
-        const updatedUsers = [
-          selectedUser,
-          ...users.filter((u) => u._id !== selectedUser._id),
-        ];
-        set({ users: updatedUsers });
-      } else {
-        toast.error("No response from server");
-      }
+  
+      // Replace temp message with real one
+      const updatedMessages = get().messages.map((msg) =>
+        msg._id === tempMessage._id ? res.data : msg
+      );
+      set({ messages: updatedMessages });
     } catch (error) {
-      console.error("sendMessage error:", error);
       toast.error(error?.response?.data?.message || "Failed to send message");
     }
   },
-
+  
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
