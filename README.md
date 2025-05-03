@@ -3,7 +3,8 @@
 **Klyno** is a full-stack MERN chat application built with modern web technologies, supporting real-time messaging, online user tracking, authentication, and a responsive UI. It leverages **Socket.IO** for live updates, **Zustand** for state management, and **TailwindCSS + DaisyUI** for clean styling.
 
 ## **🚀 Live Demo**
-(https://twiink.onrender.com)
+- Frontend: [https://twiink.onrender.com](https://twiink.onrender.com)
+- Backend API: [https://twiink-api.onrender.com](https://twiink-api.onrender.com)
 
 ## **🧰 Tech Stack**
 
@@ -35,6 +36,8 @@
 - Messages appear in real-time without refresh
 - Online status (green dot) per user
 
+## **📁 Folder Structure**
+```
 📦 Klyno
 ├── 📁 backend
 │   ├── 📁 controllers     # Route logic (e.g., message.controller.js)
@@ -62,6 +65,7 @@
 ├── 📄 .gitignore          # Ignores node_modules, .env, dist, etc.
 ├── 📄 README.md           # Project documentation
 └── 📄 package.json        # Root-level scripts (build, start)
+```
 
 ## **🛠 How to Run Locally**
 
@@ -92,6 +96,12 @@ CLOUDINARY_API_SECRET=your_secret
 npm run dev --prefix frontend
 npm run dev --prefix backend
 ```
+
+## **🌐 Deployment Notes**
+- Hosted using **Render**
+- Frontend and backend deployed separately
+- `NODE_ENV=production` is set in the environment
+- Frontend devDependencies are included using `--production=false` in build
 
 ## **✅ Features Implemented**
 - Secure auth with JWT cookies
