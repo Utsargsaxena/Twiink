@@ -1,59 +1,42 @@
-🗨️ Klyno — Real-Time Chat App
-Klyno is a full-stack MERN chat application built with modern web technologies, supporting real-time messaging, online user tracking, authentication, and a responsive UI. It leverages Socket.IO for live updates, Zustand for state management, and TailwindCSS + DaisyUI for clean styling.
+# 🗨️ **Klyno — Real-Time Chat App**
 
-🚀 Live Demo
-🌐 Frontend: https://twiink.onrender.com
-🛠 Backend API: https://twiink-api.onrender.com
+**Klyno** is a full-stack MERN chat application built with modern web technologies, supporting real-time messaging, online user tracking, authentication, and a responsive UI. It leverages **Socket.IO** for live updates, **Zustand** for state management, and **TailwindCSS + DaisyUI** for clean styling.
 
-🧰 Tech Stack
-🔹 Frontend
-React.js
+## **🚀 Live Demo**
+(https://twiink.onrender.com)
 
-Zustand (Global State)
+## **🧰 Tech Stack**
 
-Tailwind CSS + DaisyUI (Styling)
+### 🔹 **Frontend**
+- React.js
+- Zustand (Global State)
+- Tailwind CSS + DaisyUI
+- Axios
+- React Hot Toast
+- Vite
 
-Axios (API calls)
+### 🔹 **Backend**
+- Express.js
+- MongoDB + Mongoose
+- Socket.IO
+- JWT Authentication
+- bcryptjs
+- Cloudinary
+- CORS & Cookies
 
-React Hot Toast (Feedback & Alerts)
+## **🔐 Authentication Flow**
+- Signup & Login generate a JWT token (stored in HTTP-only cookies)
+- Session maintained via `/auth/check` endpoint
+- Secure logout with token invalidation
 
-Vite (Build Tool)
+## **💬 Real-Time Features**
+- Online user tracking
+- Instant message delivery via Socket.IO
+- Messages appear in real-time without refresh
+- Online status (green dot) per user
 
-🔹 Backend
-Express.js
-
-MongoDB + Mongoose
-
-Socket.IO (Real-time communication)
-
-JWT Authentication
-
-bcryptjs (Password hashing)
-
-Cloudinary (Optional: Profile image upload)
-
-CORS & Cookies (For secure session handling)
-
-🔐 Authentication Flow
-Signup & Login generates a JWT token (stored in HTTP-only cookies).
-
-Session is maintained and verified using /auth/check on page load.
-
-Secure logout with token invalidation.
-
-💬 Real-Time Features
-Online users tracking
-
-Instant message delivery using Socket.IO
-
-New messages auto-appended without page reload
-
-User status indication (green dot for online users)
-
-📁 Folder Structure (Simplified)
-bash
-Copy
-Edit
+## **📁 Folder Structure (Simplified)**
+```
 Klyno/
 ├── backend/
 │   ├── routes/
@@ -67,60 +50,53 @@ Klyno/
 │   │   └── store/useAuthStore.js
 │   └── vite.config.js
 ├── .env
-├── package.json (global)
-🛠 How to Run Locally
-1. Clone the repository
-bash
-Copy
-Edit
+├── package.json (root)
+```
+
+## **🛠 How to Run Locally**
+
+1. **Clone the repository**
+```bash
 git clone https://github.com/Utsargsaxena/Klyno.git
 cd Klyno
-2. Install dependencies
-bash
-Copy
-Edit
+```
+
+2. **Install dependencies**
+```bash
 npm install --prefix frontend
 npm install --prefix backend
-3. Create .env files
-Add these to the root .env (do not commit to GitHub):
+```
 
-env
-Copy
-Edit
+3. **Create a `.env` file**
+```
 PORT=5001
 MONGODB_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
 CLOUDINARY_CLOUD_NAME=your_name
 CLOUDINARY_API_KEY=your_key
 CLOUDINARY_API_SECRET=your_secret
-4. Start local development
-bash
-Copy
-Edit
-# In two terminals
+```
+
+4. **Start in development** (use two terminals)
+```bash
 npm run dev --prefix frontend
 npm run dev --prefix backend
-🌐 Deployment
-Deployed on Render (both frontend and backend)
+```
 
-Uses NODE_ENV=production and CORS setup for secure deployment
+## **🌐 Deployment Notes**
+- Hosted using **Render**
+- Frontend and backend deployed separately
+- `NODE_ENV=production` is set in the environment
+- Frontend devDependencies are included using `--production=false` in build
 
-Vite configured with --production=false to include devDependencies
+## **✅ Features Implemented**
+- Secure auth with JWT cookies
+- Zustand store for global state
+- Real-time messaging with Socket.IO
+- Cloudinary image uploads
+- Fully responsive UI
+- Online users tracking
+- Working deployed version
 
-✅ Features Completed
-JWT-based authentication with secure cookie handling
-
-Zustand-based global state
-
-Socket.IO for real-time events
-
-CORS setup with credentials
-
-Cloudinary integration (optional)
-
-Responsive layout with DaisyUI
-
-Dynamic message rendering and profile management
-
-Local and production-ready switching setup
-
+## **👨‍💻 Author**
+Built by Utsarg Saxena — [GitHub](https://github.com/Utsargsaxena)
