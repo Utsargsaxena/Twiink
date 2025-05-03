@@ -6,7 +6,8 @@ import { io } from "socket.io-client";
 const SOCKET_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:5001"
-    : "https://twiink-api.onrender.com"; 
+    : "https://twiink.onrender.com";
+
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -94,26 +95,35 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error?.response?.data?.message || "Failed to send message");
     }
   },
-
   connectSocket: () => {
     const { authUser } = get();
     if (!authUser) return;
     if (get().socket?.connected) return;
-
+  
     const socket = io(SOCKET_URL, {
       query: { userId: authUser._id },
     });
-
-    socket.on("connect", () => {});
-    socket.on("connect_error", () => {});
-    socket.on("disconnect", () => {});
-
+  
+    socket.on("connect", () => {
+      console.log("✅ Socket connected:", socket.id);
+    });
+  
+    socket.on("connect_error", (err) => {
+      console.error("❌ Socket connection error:", err.message);
+    });
+  
+    socket.on("disconnect", (reason) => {
+      console.warn("⚠️ Socket disconnected:", reason);
+    });
+  
     socket.on("getOnlineUsers", (userIds) => {
+      console.log("👥 Online users received:", userIds);
       set({ onlineUsers: userIds });
     });
-
+  
     set({ socket });
-  },
+  }
+,  
 
   disconnectSocket: () => {
     const socket = get().socket;
