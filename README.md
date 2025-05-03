@@ -35,23 +35,33 @@
 - Messages appear in real-time without refresh
 - Online status (green dot) per user
 
-## **📁 Folder Structure (Simplified)**
-```
-Klyno/
-├── backend/
-│   ├── routes/
-│   ├── controllers/
-│   ├── lib/ (e.g., db.js, socket.js)
-│   └── src/index.js
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── store/useAuthStore.js
-│   └── vite.config.js
-├── .env
-├── package.json (root)
-```
+📦 Klyno
+├── 📁 backend
+│   ├── 📁 controllers     # Route logic (e.g., message.controller.js)
+│   ├── 📁 lib             # Core configs (e.g., DB, socket setup)
+│   ├── 📁 middleware      # Middleware logic (auth, error handling, etc.)
+│   ├── 📁 models          # Mongoose schemas
+│   ├── 📁 routes          # Express route files (auth, messages)
+│   ├── 📁 seeds           # Optional: Sample data (if used)
+│   ├── 📄 index.js        # Main server entry point
+│   └── 📄 .env            # Environment variables (ignored in Git)
+├── 📁 frontend
+│   ├── 📁 dist            # Vite build output (not shown on GitHub unless pushed)
+│   ├── 📁 node_modules    # Frontend dependencies
+│   └── 📁 src
+│       ├── 📁 assets      # Images, icons, static files
+│       ├── 📁 components  # Reusable UI components
+│       ├── 📁 Pages       # Page-level components (e.g., Login, Signup, Chat)
+│       ├── 📁 constants   # Static constants/configs
+│       ├── 📁 lib         # Axios instance, helpers
+│       ├── 📁 skeletons   # Loading skeletons (if any)
+│       ├── 📁 store       # Zustand stores for auth & chat
+│       ├── 📄 App.jsx     # Main app component
+│       ├── 📄 index.jsx   # React entry point
+│       └── 📄 main.jsx    # Root file with router/provider setup
+├── 📄 .gitignore          # Ignores node_modules, .env, dist, etc.
+├── 📄 README.md           # Project documentation
+└── 📄 package.json        # Root-level scripts (build, start)
 
 ## **🛠 How to Run Locally**
 
