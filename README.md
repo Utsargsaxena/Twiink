@@ -83,12 +83,6 @@ npm run dev --prefix frontend
 npm run dev --prefix backend
 ```
 
-## **🌐 Deployment Notes**
-- Hosted using **Render**
-- Frontend and backend deployed separately
-- `NODE_ENV=production` is set in the environment
-- Frontend devDependencies are included using `--production=false` in build
-
 ## **✅ Features Implemented**
 - Secure auth with JWT cookies
 - Zustand store for global state
