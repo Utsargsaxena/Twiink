@@ -7,11 +7,30 @@ import { getReceiverSocketId, io } from "../lib/socket.js";
 export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
-    const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
 
-    res.status(200).json(filteredUsers);
+    const users = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+
+    const usersWithLastMsgTime = await Promise.all(
+      users.map(async (user) => {
+        const lastMessage = await Message.findOne({
+          $or: [
+            { senderId: loggedInUserId, receiverId: user._id },
+            { senderId: user._id, receiverId: loggedInUserId },
+          ],
+        }).sort({ createdAt: -1 });
+
+        return {
+          ...user.toObject(),
+          lastMessageTime: lastMessage ? lastMessage.createdAt : new Date(0),
+        };
+      })
+    );
+
+    usersWithLastMsgTime.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
+
+    res.status(200).json(usersWithLastMsgTime);
   } catch (error) {
-    console.error("Error in getUsersForSidebar: ", error.message);
+    console.error("Error in getUsersForSidebar:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };

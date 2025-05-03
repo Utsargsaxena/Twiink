@@ -14,14 +14,13 @@ export const useChatStore = create((set, get) => ({
     set({ isUsersLoading: true });
     try {
       const res = await axiosInstance.get("/messages/users");
-    set({ users: res.data }); 
+      set({ users: res.data }); 
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to load users");
     } finally {
       set({ isUsersLoading: false });
     }
   },
-  
 
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
@@ -34,15 +33,22 @@ export const useChatStore = create((set, get) => ({
       set({ isMessagesLoading: false });
     }
   },
+
   sendMessage: async (messageData) => {
-    const { selectedUser, messages } = get();
-  
+    const { selectedUser, messages, users } = get();
+
     try {
       const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
-  
-      // Defensive check
+
       if (res?.data) {
         set({ messages: [...messages, res.data] });
+
+        // Move selected user to top
+        const updatedUsers = [
+          selectedUser,
+          ...users.filter((u) => u._id !== selectedUser._id),
+        ];
+        set({ users: updatedUsers });
       } else {
         toast.error("No response from server");
       }
@@ -51,7 +57,6 @@ export const useChatStore = create((set, get) => ({
       toast.error(error?.response?.data?.message || "Failed to send message");
     }
   },
-  
 
   subscribeToMessages: () => {
     const { selectedUser } = get();
@@ -61,11 +66,25 @@ export const useChatStore = create((set, get) => ({
 
     socket.on("newMessage", (newMessage) => {
       const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-      if (!isMessageSentFromSelectedUser) return;
 
-      set({
-        messages: [...get().messages, newMessage],
-      });
+      if (isMessageSentFromSelectedUser) {
+        set({
+          messages: [...get().messages, newMessage],
+        });
+      }
+
+      // Move sender to top of user list
+      const { users } = get();
+      const senderId = newMessage.senderId;
+      const user = users.find((u) => u._id === senderId);
+
+      if (user) {
+        const updatedUsers = [
+          user,
+          ...users.filter((u) => u._id !== senderId),
+        ];
+        set({ users: updatedUsers });
+      }
     });
   },
 
@@ -73,5 +92,6 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
     socket.off("newMessage");
   },
-  setSelectedUser : (selectedUser) => set({selectedUser})
-}))
+
+  setSelectedUser: (selectedUser) => set({ selectedUser }),
+}));
