@@ -1,6 +1,18 @@
 # 🗨️ **Klyno — Real-Time Chat App**
 
-**Klyno** is a full-stack MERN chat application built with modern web technologies, supporting real-time messaging, online user tracking, authentication, and a responsive UI. It leverages **Socket.IO** for live updates, **Zustand** for state management, and **TailwindCSS + DaisyUI** for clean styling.
+Klyno is a **full-stack**, **production-ready MERN chat application** that enables **seamless real-time one-on-one messaging** with a **responsive and modern UI**. Designed with **clean architecture** and **optimized performance** in mind, it showcases **end-to-end integration** of frontend, backend, and sockets.
+
+Project features:
+
+🔁 **Real-time messaging** powered by **Socket.IO**, enabling **instant communication without page reloads**.  
+🟢 **Online user tracking**, showing who's currently active using **server-to-client socket syncing**.  
+🔐 **Secure authentication flow** using **JWT tokens**, stored as **HTTP-only cookies** to prevent XSS.  
+🌐 **RESTful API backend** built with **Express.js**, including **authentication and chat routes**.  
+☁️ **Media uploads handled via Cloudinary**, enabling **file persistence and display**.  
+🗂️ **Zustand** as a **modern and minimal global state manager** for clean and scalable state logic.  
+💅 UI styled with **TailwindCSS and DaisyUI**, optimized for both **mobile and desktop responsiveness**.  
+🔒 **Fully CORS-compliant** with **credentialed requests**, supporting both **local development** and **production domains**.
+
 
 ## **🚀 Live Demo**
 https://twiink.onrender.com
