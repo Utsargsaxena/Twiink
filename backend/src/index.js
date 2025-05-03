@@ -18,9 +18,10 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "https://twiink.onrender.com", 
+  origin: "https://twiink.onrender.com",
   credentials: true,
 }));
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", MessageRoutes);
